@@ -21,7 +21,7 @@ const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody }) => {
             callback: () => handleSave()
         }
     ]
-    const { transcript, resetTranscript , interimTranscript, finalTranscript} = useSpeechRecognition({commands})
+    const {resetTranscript , finalTranscript} = useSpeechRecognition({commands})
 
     const handleSave = () => {
         SpeechRecognition.stopListening()

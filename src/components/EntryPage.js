@@ -3,6 +3,7 @@ import "../css/OpenJournal.css";
 import {
   IoChevronForwardCircleOutline,
   IoChevronBackCircleOutline,
+  IoAddCircleOutline,
 } from "react-icons/io5";
 import EditEntry from "./EditEntry";
 
@@ -19,6 +20,32 @@ const EntryPage = React.forwardRef((props, ref) => {
         setBody(props.entry.body);
         setId(props.entry.id);
     }, [props.entry.title, props.entry.id, props.entry.body]);
+    
+    const pageDirection = () => {
+        if(props.number % 2 !== 0 && props.number !== props.totalPage -1){
+            return(
+                <button onClick={props.nextButtonClick}>
+                    <IoChevronForwardCircleOutline size={30} />
+                </button>)
+        }else if(props.number % 2 !== 0 && props.number === props.totalPage -1){
+            return(
+                <button onClick={()=>props.newEntry()}>
+                    <IoAddCircleOutline size={30}/>
+                </button>
+            )
+        }else if(props.number % 2 === 0 && props.number !== props.totalPage -1){
+            return(
+                <button onClick={props.prevButtonClick}>
+                    <IoChevronBackCircleOutline size={30} />
+                </button>
+            )
+        }else{return(
+            <button onClick={()=>props.newEntry()}>
+                <IoAddCircleOutline size={30}/>
+            </button>
+        )}
+    }
+    
     return (
         <div>
         <div className="page" ref={ref}>
@@ -28,16 +55,7 @@ const EntryPage = React.forwardRef((props, ref) => {
                 {body}
             </div>
             <div className="page-footer">
-                {props.number % 2 === 0 ? (
-                <button onClick={props.prevButtonClick}>
-                    <IoChevronBackCircleOutline size={30} />{" "}
-                </button>
-                ) : (
-                <button onClick={props.nextButtonClick}>
-                    {" "}
-                    <IoChevronForwardCircleOutline size={30} />
-                </button>
-                )}
+                {pageDirection()}
                 {props.number}
             </div>
             </div>
