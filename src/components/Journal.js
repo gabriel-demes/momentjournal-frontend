@@ -1,9 +1,19 @@
 import React from "react"
+import {FaBook} from 'react-icons/fa'
+import { useHistory } from "react-router-dom"
 
-const Journal = () => {
+const Journal = ({id, title}) => {
+    const history = useHistory()
+    const redirect = () => {
+        history.push(`/journals/${id}`)
+    }
+    const changeMouse = e => {
+        e.target.style.cursor = "pointer"
+    }
     return(
-        <div>
-
+        <div onClick={redirect} onMouseEnter={changeMouse}>
+            <FaBook size={175}/>
+            <h4>{title}</h4>
         </div>
     )
 }

@@ -4,15 +4,24 @@ import Calendar from "./Calendar";
 import JournalContainer from "./JournalContainer";
 import NavBar from "./NavBar";
 import OpenJournal from "./OpenJournal";
+import {Switch, Route} from "react-router-dom"
 
 function App() {
   return (
     <>
-    <NavBar/>
-    <JournalContainer/>
-    {/* <OpenJournal/> */}
-    {/* <Calendar/> */}
-    {/* <Auth/> */}
+      <NavBar/>
+      <Switch>
+        <Route path="/me">
+          <JournalContainer/>
+          <Calendar/>
+        </Route>
+        <Route path="/journals/:id">
+          <OpenJournal/>
+        </Route>
+        <Route path="/login">
+          <Auth/>
+        </Route>
+      </Switch>
     </>
   );
 }
