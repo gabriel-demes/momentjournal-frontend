@@ -58,6 +58,7 @@ const OpenJournal = (props) => {
             entry={entry} totalPage={totalPage}
             totalPage={totalPage}
             newEntry={newEntry}
+            deleteEntry={deleteEntry}
             />
         );
         });
@@ -79,6 +80,20 @@ const OpenJournal = (props) => {
             )
     }
 
+    const deleteEntry = id => {
+        fetch(`http://localhost:3000/entries/${id}}`, {
+            method: "DELETE"
+        })
+        .then(r => r.json())
+        .then(()=>{
+            fetch(`http://localhost:3000/journals/${jid}}`)
+            .then((r) => r.json())
+            .then((journal) => {
+                setEntries(journal.entries)
+                setTotalPage(journal.entries.length +1)
+            })}
+    )
+}
     return (
         <div>
             <HTMLFlipBook

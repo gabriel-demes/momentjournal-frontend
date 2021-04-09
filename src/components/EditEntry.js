@@ -3,7 +3,7 @@ import "../css/EditEntry.css";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 
 
-const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody }) => {
+const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody, deleteEntry }) => {
     const [myTitle, setMyTitle] = useState(title);
     const [myBody, setMyBody] = useState(body);
     
@@ -57,6 +57,10 @@ const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody }) => {
         resetTranscript()
     }
     
+    const handleDelete = () => {
+        deleteEntry(id)
+        handlePopUp()
+    }
 
     return (
         <div className="hide">
@@ -74,6 +78,7 @@ const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody }) => {
         <button onClick={handleCancel}>cancel</button>
         <button onClick={handleStart}>Start</button>
         <button onClick={handleStop}>Stop</button>
+        <button onClick={handleDelete}>Delete</button>
         </div>
     );
 };

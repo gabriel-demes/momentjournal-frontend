@@ -68,6 +68,7 @@ const EntryPage = React.forwardRef((props, ref) => {
             body={body}
             setTitle={setTitle}
             setBody={setBody}
+            deleteEntry={props.deleteEntry}
             />
         )}
         </div>
