@@ -1,6 +1,6 @@
 import "../css/App.css";
 import Auth from "./Auth";
-import Calendar from "./Calendar";
+import MyCalendar from "./Calendar";
 import JournalContainer from "./JournalContainer";
 import NavBar from "./NavBar";
 import OpenJournal from "./OpenJournal";
@@ -13,9 +13,9 @@ function App() {
       <Switch>
         <Route path="/me">
           <JournalContainer/>
-          <Calendar/>
+          <MyCalendar/>
         </Route>
-        <Route path="/journals/:id">
+        <Route path="/journals/:id/:curpage">
           <OpenJournal/>
         </Route>
         <Route path="/login">

@@ -30,6 +30,7 @@ const OpenJournal = (props) => {
     const [totalPage, setTotalPage] = useState(0);
     const params = useParams();
     let jid = params["id"];
+    let curpage = params["page"]
     const [entries, setEntries] = useState([{ title: "", body: "" }]);
     const onPage = (e) => {
         setPage(refBook.current.getPageFlip().getCurrentPageIndex() +1);
@@ -38,7 +39,7 @@ const OpenJournal = (props) => {
     const nextButtonClick = (e) => {
         refBook.current.getPageFlip().setting.disableFlipByClick = false;
         refBook.current.getPageFlip().flipNext();
-        refBook.current.getPageFlip().setting.disableFlipByClick = true;
+        refBook.current.getPageFlip().setting.disableFlipByClick = true; 
     };
     const prevButtonClick = (e) => {
         refBook.current.getPageFlip().flipPrev();
@@ -51,8 +52,14 @@ const OpenJournal = (props) => {
         .then((journal) => {
             setEntries(journal.entries)
             setTotalPage(journal.entries.length +1)
+            refBook.current.getPageFlip().turnToPage(parseInt(params.curpage))
         });
     }, [jid]);
+
+    useEffect(()=> {
+        console.log(params.curpage)
+        refBook.current.getPageFlip().turnToPage(parseInt(params.curpage))
+    }, [])
 
     const pages = () => {
         let num = 0;
@@ -103,10 +110,15 @@ const OpenJournal = (props) => {
                 setTotalPage(journal.entries.length +1)
             })}
     )
+    }
+
+const testing = () => {
+    refBook.current.getPageFlip().turnToPage(3)
 }
 
     return (
         <div>
+            <button onClick={testing}>TESTINGGG</button>
             <HTMLFlipBook
                 ref={refBook}
                 starZIndex={0}

@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom"
 const Journal = ({id, title}) => {
     const history = useHistory()
     const redirect = () => {
-        history.push(`/journals/${id}`)
+        history.push(`/journals/${id}/1`)
     }
     const changeMouse = e => {
         e.target.style.cursor = "pointer"
