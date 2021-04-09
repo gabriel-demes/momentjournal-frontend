@@ -110,8 +110,8 @@ const OpenJournal = (props) => {
             <HTMLFlipBook
                 ref={refBook}
                 starZIndex={0}
-                width={300}
-                height={400}
+                width={500}
+                height={600}
                 drawShadow={true}
                 maxShadowOpacity={1}
                 showCover={false}

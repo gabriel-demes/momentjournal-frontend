@@ -50,7 +50,9 @@
 }
  
 .page .page-content .page-footer {
-  height: 30px;
+  display:flex;
+  justify-content: space-evenly;
+  height: 40px;
   border-top: solid 1px #f4e8d7;
   font-size: 80%;
   color: #998466;
@@ -68,6 +70,11 @@
 }
 .page.--right .page-footer {
   text-align: right;
+  flex-direction: row;
+}
+.page.--left .page-footer {
+  text-align: left;
+  flex-direction: row-reverse;
 }
 .page.hard {
   background-color: #f2e8d9;
