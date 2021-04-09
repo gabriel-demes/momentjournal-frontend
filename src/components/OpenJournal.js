@@ -1,15 +1,25 @@
 import React, { useState, useEffect, useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import "../css/OpenJournal.css";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory} from "react-router-dom";
 import EntryPage from "./EntryPage";
 
 const PageCover = React.forwardRef((props, ref) => {
+    const history = useHistory()
+
+    const deleteJournal = () => {
+        fetch(`http://localhost:3000/journals/${props.id}`,{
+            method: "DELETE"
+        })
+            .then(r => r.json())
+            .then(()=> history.push('/me'))
+    }
     return (
         <div className="page page-cover" ref={ref} data-density="hard">
         <div className="page-content">
-            <h2>{props.children}</h2>
+            
         </div>
+        <button onClick={deleteJournal}>Delete</button>
         </div>
     );
 });
@@ -94,6 +104,7 @@ const OpenJournal = (props) => {
             })}
     )
 }
+
     return (
         <div>
             <HTMLFlipBook
@@ -112,7 +123,7 @@ const OpenJournal = (props) => {
                 onChangeState={(e) => e.onChangeState}
                 on
             >
-                <PageCover></PageCover>
+                <PageCover id={jid}></PageCover>
                 {pages()}
                 {/* <PageCover></PageCover> */}
             </HTMLFlipBook>
