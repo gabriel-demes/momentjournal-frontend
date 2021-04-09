@@ -15,7 +15,7 @@ function App() {
           <JournalContainer/>
           <MyCalendar/>
         </Route>
-        <Route path="/journals/:id/:curpage">
+        <Route path="/journals/:id/:curpage?">
           <OpenJournal/>
         </Route>
         <Route path="/login">

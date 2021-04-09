@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import HTMLFlipBook from "react-pageflip";
 import "../css/OpenJournal.css";
-import { useParams, useHistory} from "react-router-dom";
+import { useParams, useHistory, Link} from "react-router-dom";
 import EntryPage from "./EntryPage";
+import {IoChevronForwardCircleOutline} from "react-icons/io5"
 
 const PageCover = React.forwardRef((props, ref) => {
     const history = useHistory()
@@ -24,13 +25,50 @@ const PageCover = React.forwardRef((props, ref) => {
     );
 });
 
+const TOC = React.forwardRef((props, ref) => {
+
+    const displayContents = () => {
+        return props.entries.map((entry, index)=> {
+            return(
+                <li>
+                    <Link to={`/journals/${props.jid}/${index + 1}`}>
+                        <span>{entry.title}</span>
+                    </Link>
+                </li>
+            )
+        })
+    }
+    return (
+        <div>
+            <div className="page" ref={ref}>
+                <div className="page-content">
+                    <h2 className="page-header">Table Of Contents </h2>
+                    <div className="page-text">
+                        <ol>
+                            {displayContents()}
+                        </ol>
+                    </div>
+                    <div className="page-footer">
+                        <button onClick={props.nextButtonClick}>
+                            <IoChevronForwardCircleOutline size={30} />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+
+})
+
+
 const OpenJournal = (props) => {
+    const history = useHistory()
     const refBook = useRef(null);
     const [page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
     const params = useParams();
     let jid = params["id"];
-    let curpage = params["page"]
+    let [curpage, setCurpage] = useState(params["curpage"])
     const [entries, setEntries] = useState([{ title: "", body: "" }]);
     const onPage = (e) => {
         setPage(refBook.current.getPageFlip().getCurrentPageIndex() +1);
@@ -39,7 +77,7 @@ const OpenJournal = (props) => {
     const nextButtonClick = (e) => {
         refBook.current.getPageFlip().setting.disableFlipByClick = false;
         refBook.current.getPageFlip().flipNext();
-        refBook.current.getPageFlip().setting.disableFlipByClick = true; 
+        refBook.current.getPageFlip().setting.disableFlipByClick = true;
     };
     const prevButtonClick = (e) => {
         refBook.current.getPageFlip().flipPrev();
@@ -52,14 +90,13 @@ const OpenJournal = (props) => {
         .then((journal) => {
             setEntries(journal.entries)
             setTotalPage(journal.entries.length +1)
-            refBook.current.getPageFlip().turnToPage(parseInt(params.curpage))
+            refBook.current.getPageFlip().turnToPage(parseInt(params.curpage)+1)
         });
-    }, [jid]);
+    }, [jid, curpage]);
 
     useEffect(()=> {
-        console.log(params.curpage)
-        refBook.current.getPageFlip().turnToPage(parseInt(params.curpage))
-    }, [])
+        setCurpage(params.curpage)
+    }, [params.curpage])
 
     const pages = () => {
         let num = 0;
@@ -136,6 +173,7 @@ const testing = () => {
                 on
             >
                 <PageCover id={jid}></PageCover>
+                <TOC nextButtonClick={nextButtonClick} setCurpage={setCurpage} entries={entries} jid={jid}></TOC>
                 {pages()}
                 {/* <PageCover></PageCover> */}
             </HTMLFlipBook>

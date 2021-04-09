@@ -23,27 +23,32 @@ const EntryPage = React.forwardRef((props, ref) => {
     }, [props.entry.title, props.entry.id, props.entry.body]);
     
     const pageDirection = () => {
-        if(props.number % 2 !== 0 && props.number !== props.totalPage -1){
+        if(props.number % 2 === 0 && props.number !== props.totalPage -1){
             return(
                 <button onClick={props.nextButtonClick}>
                     <IoChevronForwardCircleOutline size={30} />
                 </button>)
-        }else if(props.number % 2 !== 0 && props.number === props.totalPage -1){
+        }else if(props.number % 2 === 0 && props.number === props.totalPage -1){
             return(
                 <button onClick={()=>props.newEntry()}>
                     <IoAddCircleOutline size={30}/>
                 </button>
             )
-        }else if(props.number % 2 === 0 && props.number !== props.totalPage -1){
+        }else if(props.number % 2 !== 0 && props.number !== props.totalPage -1){
             return(
                 <button onClick={props.prevButtonClick}>
                     <IoChevronBackCircleOutline size={30} />
                 </button>
             )
         }else{return(
+            <>
             <button onClick={()=>props.newEntry()}>
                 <IoAddCircleOutline size={30}/>
             </button>
+            <button onClick={props.prevButtonClick}>
+            <IoChevronBackCircleOutline size={30} />
+            </button>
+            </>
         )}
     }
     const getSentiment = () => {
