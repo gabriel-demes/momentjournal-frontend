@@ -131,7 +131,10 @@ const OpenJournal = (props) => {
         })
             .then(r=>r.json)
             .then(()=>{
-                fetch(`http://localhost:3000/journals/${jid}}`)
+                fetch(`http://localhost:3000/journals/${jid}}`, {
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }})
                     .then((r) => r.json())
                     .then((journal) => {
                         setEntries(journal.entries)
@@ -146,7 +149,10 @@ const OpenJournal = (props) => {
         })
         .then(r => r.json())
         .then(()=>{
-            fetch(`http://localhost:3000/journals/${jid}}`)
+            fetch(`http://localhost:3000/journals/${jid}}`, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`
+                }})
             .then((r) => r.json())
             .then((journal) => {
                 setEntries(journal.entries)
