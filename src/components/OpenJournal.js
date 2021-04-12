@@ -64,15 +64,10 @@ const TOC = React.forwardRef((props, ref) => {
 const OpenJournal = (props) => {
     const history = useHistory()
     const refBook = useRef(null);
-    const [page, setPage] = useState(1);
     const [totalPage, setTotalPage] = useState(0);
     const params = useParams();
     let jid = params["id"];
-    let [curpage, setCurpage] = useState(params["curpage"])
     const [entries, setEntries] = useState([{ title: "", body: "" }]);
-    const onPage = (e) => {
-        setPage(refBook.current.getPageFlip().getCurrentPageIndex() +1);
-    };
 
     const nextButtonClick = (e) => {
         refBook.current.getPageFlip().setting.disableFlipByClick = false;
@@ -85,18 +80,29 @@ const OpenJournal = (props) => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:3000/journals/${jid}}`)
-        .then((r) => r.json())
+        fetch(`http://localhost:3000/journals/${jid}}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`
+            }})
+        .then(r=> {
+            return r.json().then(data => {
+                if (r.ok) {
+                    return data
+                } else {
+                    throw data
+                }
+            })})
         .then((journal) => {
             setEntries(journal.entries)
             setTotalPage(journal.entries.length +1)
             refBook.current.getPageFlip().turnToPage(parseInt(params.curpage)+1)
+        })
+        .catch(() => {
+            history.push("/me")
         });
-    }, [jid, curpage]);
+    }, [jid, params.curpage]);
 
-    useEffect(()=> {
-        setCurpage(params.curpage)
-    }, [params.curpage])
+
 
     const pages = () => {
         let num = 0;
@@ -109,7 +115,7 @@ const OpenJournal = (props) => {
             nextButtonClick={nextButtonClick}
             prevButtonClick={prevButtonClick}
             number={num}
-            entry={entry} totalPage={totalPage}
+            entry={entry} 
             totalPage={totalPage}
             newEntry={newEntry}
             deleteEntry={deleteEntry}
@@ -149,13 +155,10 @@ const OpenJournal = (props) => {
     )
     }
 
-const testing = () => {
-    refBook.current.getPageFlip().turnToPage(3)
-}
+
 
     return (
         <div>
-            <button onClick={testing}>TESTINGGG</button>
             <HTMLFlipBook
                 ref={refBook}
                 starZIndex={0}
@@ -165,7 +168,6 @@ const testing = () => {
                 maxShadowOpacity={1}
                 showCover={false}
                 mobileScrollSupport={true}
-                onFlip={onPage}
                 onChangeOrientation={(e) => e.onChangeOrientation}
                 clickEventForward={true}
                 disableFlipByClick={true}
@@ -173,7 +175,7 @@ const testing = () => {
                 on
             >
                 <PageCover id={jid}></PageCover>
-                <TOC nextButtonClick={nextButtonClick} setCurpage={setCurpage} entries={entries} jid={jid}></TOC>
+                <TOC nextButtonClick={nextButtonClick}  entries={entries} jid={jid}></TOC>
                 {pages()}
                 {/* <PageCover></PageCover> */}
             </HTMLFlipBook>

@@ -40,8 +40,8 @@ const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody, deleteEntr
     };
 
     useEffect(()=>{
-        setMyBody(myBody=> (myBody + " " + finalTranscript).replace(/Journal stop listening| Journal save entry| Journal title is [a-z0-9\s]*/gi,''))
-        resetTranscript()
+        setMyBody(myBody=> (myBody + " " + finalTranscript).replace(/Journal stop listening| Journal save entry| Journal title is [a-z0-9\s]*/gi,''));
+        resetTranscript();
     }, [finalTranscript])
 
     const handleCancel = () => {

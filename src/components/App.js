@@ -5,22 +5,43 @@ import JournalContainer from "./JournalContainer";
 import NavBar from "./NavBar";
 import OpenJournal from "./OpenJournal";
 import {Switch, Route} from "react-router-dom"
+import {useState, useEffect} from "react"
 
 function App() {
+  const [user, setUser] = useState(null)
+
+  useEffect(()=> {
+    const token = localStorage.getItem("token")
+    if (token){
+      fetch('http://localhost:3000/me', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+        .then((r) => r.json())
+        .then((user) => { 
+          setUser(user);
+        });
+    }
+  }, []);
+
   return (
     <>
       <NavBar/>
       <Switch>
-        <Route path="/me">
-          <JournalContainer/>
-          <MyCalendar/>
-        </Route>
-        <Route path="/journals/:id/:curpage?">
-          <OpenJournal/>
-        </Route>
-        <Route path="/login">
-          <Auth/>
-        </Route>
+        {user ? 
+          <>
+            <Route path="/me"> 
+              <JournalContainer user={user}/>
+              <MyCalendar user={user}/>
+            </Route>
+            <Route path="/journals/:id/:curpage?">
+              <OpenJournal/>
+            </Route>
+          </> 
+          :
+          <Auth setUser={setUser}/>
+        }
       </Switch>
     </>
   );

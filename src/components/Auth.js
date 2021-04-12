@@ -1,9 +1,14 @@
-import React from "react"
+import React, {useState} from "react"
+import Login from "./Login"
+import Signup from "./Signup"
 
-const Auth = () => {
+const Auth = ({setUser}) => {
+    const [auth, setAuth] = useState(true)
+    const handleClick = () => setAuth(auth => !auth)
     return(
         <div>
-            <h3>Aut</h3>
+            <button onClick={handleClick}>{auth ? "Login" : "SignUp"}</button>
+            {auth ? <Signup setUser={setUser}/> : <Login setUser={setUser}/>}
         </div>
     )
 }

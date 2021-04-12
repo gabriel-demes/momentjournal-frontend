@@ -4,18 +4,17 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 const localizer = momentLocalizer(moment)
-const MyCalendar = () => {
+const MyCalendar = ({user}) => {
     const [entries, setEntries] = useState([{date:new Date(), title:"today"}])
     const history = useHistory()
 
     useEffect(() => {
-        fetch(`http://localhost:3000/users/1`)
+        fetch(`http://localhost:3000/users/${user.id}`)
             .then(r => r.json())
             .then(user => setEntries(user["my_entries"]))
-        }, [])
+        }, [user.id])
 
     const makeEvents = () => {
-        console.log(entries)
         return(entries?.map(entry => {
             return (
                 {
