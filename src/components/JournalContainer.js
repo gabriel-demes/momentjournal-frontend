@@ -15,7 +15,8 @@ const JournalContainer = ({user}) => {
             })
     }, [user.id])
 
-    const newJournal = () => {
+    const newJournal = (e) => {
+        e.preventDefault()
         fetch(`http://localhost:3000/journals`,{
             method: "POST",
             headers: {"Content-Type": "application/json"},

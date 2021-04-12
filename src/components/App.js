@@ -6,6 +6,8 @@ import NavBar from "./NavBar";
 import OpenJournal from "./OpenJournal";
 import {Switch, Route} from "react-router-dom"
 import {useState, useEffect} from "react"
+import GoalsContainer from "./GoalsContainer";
+
 
 function App() {
   const [user, setUser] = useState(null)
@@ -37,6 +39,9 @@ function App() {
             </Route>
             <Route path="/journals/:id/:curpage?">
               <OpenJournal/>
+            </Route>
+            <Route path="/mygoals">
+              <GoalsContainer lists={user.goallists}/>
             </Route>
           </> 
           :
