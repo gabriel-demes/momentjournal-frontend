@@ -41,7 +41,7 @@ function App() {
               <OpenJournal/>
             </Route>
             <Route path="/mygoals">
-              <GoalsContainer lists={user.goallists}/>
+              <GoalsContainer  user={user} lists={user.goallists} />
             </Route>
           </> 
           :
