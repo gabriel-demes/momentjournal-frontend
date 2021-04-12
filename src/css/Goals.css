@@ -1,0 +1,33 @@
+div.goalscontainer{
+    border: 1px solid #A9A9A9;
+    grid-column-start: 2;
+    grid-row-start: 2; 
+    display: flex;
+    justify-content: space-evenly;
+    overflow-x: scroll;
+}
+
+div.goallist{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 20rem;
+    text-align: center;
+    justify-content: space-evenly;
+    border: 1px solid #A9A9A9;
+    border-radius: 25px;
+    text-align: center;
+    overflow-y: scroll;
+}
+
+div.goal{
+
+    align-self: center;
+    text-align: center;
+    border-radius: 25px;
+    border: 1px solid #A9A9A9;
+    margin-left: 0;
+    margin-bottom: 1rem;
+    width: 85%;
+    background-color: white;
+    color: black;
+}
