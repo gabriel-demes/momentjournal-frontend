@@ -1,0 +1,13 @@
+div.navbar {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+div.tabs{
+    display:flex;
+    justify-content: space-evenly;
+}
+
+div.tabs div{
+    padding: 2rem;
+}
