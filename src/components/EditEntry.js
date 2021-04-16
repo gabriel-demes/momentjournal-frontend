@@ -32,7 +32,6 @@ const EditEntry = ({title, body, id, setTitle, setBody, deleteEntry, modOpen, se
     const {resetTranscript , finalTranscript} = useSpeechRecognition({commands})
 
     const handleSave = () => {
-        console.log(body, title, id)
         SpeechRecognition.stopListening()
         resetTranscript()
         fetch(`http://localhost:3000/entries/${id}`, {

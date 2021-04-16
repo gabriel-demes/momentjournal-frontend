@@ -14,8 +14,10 @@ function App() {
   const [user, setUser] = useState(null)
   const [newJModOpen, setNewJModOpen] = useState(false)
   const [newGModOpen, setNewGModOpen] = useState(false)
+  const [newGuestModOpen, setNewGuestModOpen] = useState(false)
   const [myJournals, setMyJournals] = useState([])
   const [myLists, setMyLists] = useState([])
+  const [guestList, setGuestList] = useState([])
   useEffect(()=> {
     const token = localStorage.getItem("token")
     if (token){
@@ -29,21 +31,22 @@ function App() {
           setUser(user);
           setMyJournals(user["my_journals"])
           setMyLists(user.goallists)
+          setGuestList(user["guest_journals"])
         });
     }
   }, []);
 
   return (
     <div className="App">
-      <NavBar setNewJModOpen={setNewJModOpen}  setNewGModOpen={setNewGModOpen}user={user}/>
+      <NavBar setNewGuestModOpen={setNewGuestModOpen} setNewJModOpen={setNewJModOpen}  setNewGModOpen={setNewGModOpen}user={user}/>
       <Switch>
         {user ? 
           <>
             <Route path="/me"> 
-              <Dashboard myJournals={myJournals} setMyJournals={setMyJournals} user={user} setNewJModOpen={setNewJModOpen} newJModOpen={newJModOpen}   />
+              <Dashboard guestList={guestList} myJournals={myJournals} setMyJournals={setMyJournals} user={user} setNewJModOpen={setNewJModOpen} newJModOpen={newJModOpen}   />
             </Route>
             <Route path="/journals/:id/:curpage?">
-              <OpenJournal setMyJournals={setMyJournals}/>
+              <OpenJournal user={user} setMyJournals={setMyJournals} setNewGuestModOpen={setNewGuestModOpen} newGuestModOpen={newGuestModOpen}/>
             </Route>
             <Route path="/mygoals">
               <GoalsContainer  setNewGModOpen={setNewGModOpen} newGModOpen={newGModOpen}user={user} lists={myLists} setMyLists={setMyLists}/>

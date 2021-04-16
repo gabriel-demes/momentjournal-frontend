@@ -7,7 +7,7 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
 import { IoAddCircleOutline } from "react-icons/io5";
 
-const NavBar = ({ user, setNewJModOpen, setNewGModOpen }) => {
+const NavBar = ({ user, setNewJModOpen, setNewGModOpen, setNewGuestModOpen }) => {
 
     
 
@@ -23,6 +23,22 @@ const NavBar = ({ user, setNewJModOpen, setNewGModOpen }) => {
     const openMenu = (e) => {
         setAnchorE1(e.currentTarget);
     };
+
+    const menuOptions = () => {
+        if(location === "/me"){
+            return(<MenuItem onClick={()=> {menuClose(); setNewJModOpen(true)}}>New Journal</MenuItem>)
+        }else if(location === "/mygoals"){
+            return(<MenuItem onClick={()=> {menuClose(); setNewGModOpen(true)}}>New GoalList</MenuItem>
+            )
+        }else if(location.includes("/journals")){
+            return(<MenuItem onClick={()=> {menuClose(); setNewGuestModOpen(true)}}>Add Guest</MenuItem>)
+
+        }
+                  
+    }
+
+
+
     return (
         <AppBar  className="nav-bar"position="sticky">
         <Toolbar className="navbar">
@@ -34,11 +50,8 @@ const NavBar = ({ user, setNewJModOpen, setNewGModOpen }) => {
                 open={Boolean(anchorE1)}
                 onClose={menuClose}
             >
-                {location === "/me" ?
-                <MenuItem onClick={()=> {menuClose(); setNewJModOpen(true)}}>New Journal</MenuItem>
-                :
-                <MenuItem onClick={()=> {menuClose(); setNewGModOpen(true)}}>New GoalList</MenuItem>
-                }   
+                {menuOptions()}
+                
                 </Menu>
             <ButtonGroup variant="contained" size="large">
             <Button onClick={() => changeTabs("me")} id="me">

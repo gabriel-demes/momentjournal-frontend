@@ -4,7 +4,7 @@ import NewJournalForm from "./NewJournalForm"
 // import "../css/Journalcontainer.css";
 
 
-const JournalContainer = ({modOpen, setModOpen, user, myJournals, setMyJournals}) => {
+const JournalContainer = ({modOpen, setModOpen, user, myJournals, setMyJournals, guestList}) => {
     
     
     
@@ -20,9 +20,12 @@ const JournalContainer = ({modOpen, setModOpen, user, myJournals, setMyJournals}
     }
     
     const displayJournals = () => {return(myJournals.map(journal => <Journal key={`${journal[0]}${journal[1]}`} id={journal[0]} title={journal[1]}/>))}
+    const displayGuests = () => {return(guestList.map(journal => <Journal key={`${journal[0]}${journal[1]}`} id={journal[0]} title={journal[1]}/>))}
+
     return(
         <div className="journalContainer">
             {displayJournals()}
+            {displayGuests()}
     
             <NewJournalForm newJournal={newJournal}  modOpen={modOpen} setModOpen={setModOpen}/>
         </div>

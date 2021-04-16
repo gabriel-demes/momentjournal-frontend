@@ -4,6 +4,7 @@ import "../css/OpenJournal.css";
 import { useParams, useHistory, Link} from "react-router-dom";
 import EntryPage from "./EntryPage";
 import {IoChevronForwardCircleOutline} from "react-icons/io5"
+import NewGuest from "./NewGuest";
 
 const PageCover = React.forwardRef((props, ref) => {
     const history = useHistory()
@@ -26,7 +27,7 @@ const PageCover = React.forwardRef((props, ref) => {
         <div className="page-content">
             
         </div>
-        <button onClick={deleteJournal}>Delete</button>
+        {!props.isGuest ? <button onClick={deleteJournal}>Delete</button> : null}
         </div>
     );
 });
@@ -74,6 +75,9 @@ const OpenJournal = (props) => {
     const params = useParams();
     let jid = params["id"];
     const [entries, setEntries] = useState([{ title: "", body: "" }]);
+    const [isGuest, setIsGuest] = useState(false)
+    const [code, setCode] = useState("")
+    const [guestErrors, setGuestErrors] = useState([])
 
     const nextButtonClick = (e) => {
         refBook.current.getPageFlip().setting.disableFlipByClick = false;
@@ -103,12 +107,15 @@ const OpenJournal = (props) => {
         .then((journal) => {
             setEntries(journal.entries)
             setTotalPage(journal.entries.length +1)
+            if(journal.myguests.includes(props.user.id)){
+                setIsGuest(true)
+            }
             refBook.current.getPageFlip().turnToPage(parseInt(params.curpage)+1)
         })
         .catch(() => {
             history.push("/me")
         });
-    }, [jid, params.curpage, history]);
+    }, [jid, params.curpage, history, props.user.id]);
 
 
 
@@ -127,6 +134,7 @@ const OpenJournal = (props) => {
             totalPage={totalPage}
             newEntry={newEntry}
             deleteEntry={deleteEntry}
+            isGuest= {isGuest}
             />
         );
         });
@@ -170,11 +178,34 @@ const OpenJournal = (props) => {
     }
 
     
+    const addUser = (e) => {
+        e.preventDefault()
+        fetch(`http://localhost:3000/guests/`, {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({code: code, journal_id: jid})
+        })
+        .then(r=> {
+            return r.json().then(data => {
+                if (r.ok) {
+                    props.setNewGuestModOpen(false)
+                    return data
+                } else {
+                    throw data
+                }
+            })})
+            .catch(data => {
+                setGuestErrors(data.errors)
+            })
+    }
 
 
 
     return (
-        <div className="wowbook">
+        <div  onSubmit={addUser} className="wowbook" >
         <div id="testing123" >
             <HTMLFlipBook
                 ref={refBook}
@@ -191,11 +222,12 @@ const OpenJournal = (props) => {
                 onChangeState={(e) => e.onChangeState}
                 on
             >
-                <PageCover id={jid} setMyJournals={props.setMyJournals}></PageCover>
+                <PageCover isGuest={isGuest} id={jid} setMyJournals={props.setMyJournals}></PageCover>
                 <TOC nextButtonClick={nextButtonClick}  entries={entries} jid={jid}></TOC>
                 {pages()}
                 {/* <PageCover></PageCover> */}
             </HTMLFlipBook>
+            <NewGuest errors={guestErrors} journal={jid} addUser={addUser} code={code} setCode={setCode} setNewGuestModOpen={props.setNewGuestModOpen} newGuestModOpen={props.newGuestModOpen}/>
             </div>
         </div>
 

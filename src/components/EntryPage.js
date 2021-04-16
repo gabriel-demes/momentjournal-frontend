@@ -30,9 +30,12 @@ const EntryPage = React.forwardRef((props, ref) => {
                 </button>)
         }else if(props.number % 2 === 0 && props.number === props.totalPage -1){
             return(
+                <>
+                { !props.isGuest &&
                 <button onClick={()=>props.newEntry()}>
                     <IoAddCircleOutline size={30}/>
-                </button>
+                </button> }
+                </>
             )
         }else if(props.number % 2 !== 0 && props.number !== props.totalPage -1){
             return(
@@ -42,9 +45,10 @@ const EntryPage = React.forwardRef((props, ref) => {
             )
         }else{return(
             <>
+            {!props.isGuest &&
             <button onClick={()=>props.newEntry()}>
                 <IoAddCircleOutline size={30}/>
-            </button>
+            </button>}
             <button onClick={props.prevButtonClick}>
             <IoChevronBackCircleOutline size={30} />
             </button>
@@ -66,7 +70,7 @@ const EntryPage = React.forwardRef((props, ref) => {
         <div className="page" ref={ref}>
             <div className="page-content">
             <h2 className="page-header">{title} </h2>
-            <div onClick={()=>setModOpen(true)} className="page-text">
+            <div onClick={()=> !props.isGuest && setModOpen(true)} className="page-text">
                 {formatedBody}
             </div>
             <div className="page-footer">
