@@ -8,7 +8,7 @@ const EditEntry = ({title, body, id, setTitle, setBody, deleteEntry, modOpen, se
     
     const [myTitle, setMyTitle] = useState(title);
     const [myBody, setMyBody] = useState(body);
-    // debugger
+    const languages = {Arabic: "ar-JO", Bulgarian: "bg", Czech:"cs", English:"en-Us", French:"fr-FR", Mandarin: "zh-Cn", Cantonese: "zh-TW", Russian: "ru", Spanish:"es-PR", Turkish:"tr", Polish: "pl", Korean: "ko", Japanese: "ja", Dutch:"nl-NL", Catalan: "ca", Greek: "el-GR", Italian: "it-IT"}
     const commands = [
         {
             command: "journal stop listening",
@@ -21,6 +21,12 @@ const EditEntry = ({title, body, id, setTitle, setBody, deleteEntry, modOpen, se
         {
             command: "journal save entry",
             callback: () => handleSave()
+        },
+        {
+            command: "journal language is *", 
+            callback: (language) => {                
+                handleStart(languages[language])
+            }
         }
     ]
     const {resetTranscript , finalTranscript} = useSpeechRecognition({commands})
@@ -43,16 +49,18 @@ const EditEntry = ({title, body, id, setTitle, setBody, deleteEntry, modOpen, se
     };
 
     useEffect(()=>{
-        setMyBody(myBody=> (myBody + " " + finalTranscript).replace(/Journal stop listening| Journal save entry| Journal title is [a-z0-9\s]*/gi,''));
+        setMyBody(myBody=> (myBody + " " + finalTranscript).replace(/Journal stop listening| Journal save entry| Journal title is [a-z0-9\s]* | Journal language is [a-z0-9\s]*/gi,''));
         resetTranscript();
     }, [finalTranscript])
 
     const handleCancel = () => {
+        SpeechRecognition.stopListening()
+        resetTranscript()
         setModOpen(false);
     };
 
-    const handleStart = () => {
-        SpeechRecognition.startListening({continuous: true})
+    const handleStart = (lang) => {
+        SpeechRecognition.startListening({continuous: true, language: lang})
         
     }
     const handleStop = () => {
@@ -102,12 +110,11 @@ const EditEntry = ({title, body, id, setTitle, setBody, deleteEntry, modOpen, se
         <DialogActions>
           <Button onClick={handleSave}>Save</Button>
           <Button onClick={handleCancel}>cancel</Button>
-          <Button onClick={handleStart}>Start</Button>
+          <Button onClick={()=> handleStart("en-US")}>Start</Button>
           <Button onClick={handleStop}>Stop</Button>
           <Button onClick={handleDelete}>Delete</Button>
         </DialogActions>
       </Dialog>
     );
 };
-
 export default EditEntry;
