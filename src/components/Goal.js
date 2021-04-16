@@ -1,4 +1,6 @@
+import { Button, ButtonGroup, Checkbox } from "@material-ui/core"
 import React, {useState} from "react"
+import { IoHeartSharp, IoTrashBinSharp } from "react-icons/io5"
 import "../css/Goals.css"
 
 const Goal = ({goal, setGoals}) => {
@@ -25,10 +27,20 @@ const Goal = ({goal, setGoals}) => {
     }
     return (
         <div className="goal">
-            <input onChange={toggleComplete} type="checkbox" checked={isComplete}></input>
-            <button onClick={deleteGoal}>X</button>
+            <ButtonGroup variant="text">
+            <Checkbox 
+            icon={<IoHeartSharp color={isComplete? "red":"white"} />}
+             onChange={toggleComplete} 
+             checkedIcon={<IoHeartSharp color={isComplete? "red":"white"} />}
+             >
+             </Checkbox>
+            <Button 
+                onClick={deleteGoal}
+                startIcon={<IoTrashBinSharp color="white"></IoTrashBinSharp>}
+                style={{paddingLeft:"2em"}}
+            ></Button>
+            </ButtonGroup>
             <h4>{goal.title}</h4>
-            <p>{goal.completed}</p>
         </div>
     )
 }

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react"
 import Goal from "./Goal"
 import "../css/Goals.css"
+import { Button, TextField } from "@material-ui/core"
+import { IoAddCircle, IoTrashBinSharp } from "react-icons/io5"
 
 const GoalList = ({list, setMyLists}) => {
     
@@ -53,15 +55,19 @@ const GoalList = ({list, setMyLists}) => {
     return (
         <div className="goallist">
             <h3>{list.title}</h3>
-            <button onClick={deleteList}>Delete</button>
-            <button onClick={newGoal}>New Goal</button>
+            <section style={{paddingLeft:"1em"}}>
+            <Button onClick={newGoal} startIcon={<IoAddCircle size={25} color="rgb(0, 76, 104)"/>}></Button>
+            <Button style={{textAlign:"center"}}  startIcon={<IoTrashBinSharp size={25} color="rgb(0, 76, 104)"/>} onClick={deleteList}></Button>
+            </section>
             {add ? 
             <form onSubmit={addGoal}>
-                <input value={title} onChange={e=>setTitle(e.target.value)}></input>
-                <input type="submit"></input>
+                <TextField value={title} onChange={e=>setTitle(e.target.value)}></TextField>
+                <Button variant="text" color="rgb(0, 76, 104)" onClick={e=> addGoal(e)}>Submit</Button>
             </form> :null}
 
-            {displayGoals}
+            <div className="goalsss">
+                {displayGoals}
+            </div>
         </div>
     )
 }

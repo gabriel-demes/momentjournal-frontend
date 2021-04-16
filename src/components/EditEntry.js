@@ -1,12 +1,14 @@
 import React, { useState, useEffect} from "react";
 import "../css/EditEntry.css";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel } from "@material-ui/core";
 
 
-const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody, deleteEntry }) => {
+const EditEntry = ({title, body, id, setTitle, setBody, deleteEntry, modOpen, setModOpen }) => {
+    
     const [myTitle, setMyTitle] = useState(title);
     const [myBody, setMyBody] = useState(body);
-    
+    // debugger
     const commands = [
         {
             command: "journal stop listening",
@@ -24,6 +26,7 @@ const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody, deleteEntr
     const {resetTranscript , finalTranscript} = useSpeechRecognition({commands})
 
     const handleSave = () => {
+        console.log(body, title, id)
         SpeechRecognition.stopListening()
         resetTranscript()
         fetch(`http://localhost:3000/entries/${id}`, {
@@ -35,7 +38,7 @@ const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody, deleteEntr
         .then((entry) => {
             setTitle(entry.title);
             setBody(entry.body)
-            handlePopUp();
+            setModOpen(false)
         });
     };
 
@@ -45,7 +48,7 @@ const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody, deleteEntr
     }, [finalTranscript])
 
     const handleCancel = () => {
-        handlePopUp();
+        setModOpen(false);
     };
 
     const handleStart = () => {
@@ -59,27 +62,51 @@ const EditEntry = ({ handlePopUp, title, body, id, setTitle, setBody, deleteEntr
     
     const handleDelete = () => {
         deleteEntry(id)
-        handlePopUp()
+        setModOpen(false)
     }
 
+    const handleClose = () => {
+        setModOpen(false);
+      }
+
     return (
-        <div className="hide">
-        <div className="pop-up">
-            <input
+        <Dialog 
+        disableBackdropClick={true} maxWidth="md" fullWidth={true} open={modOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="test">Edit {title}</DialogTitle>
+        <DialogContent>
+        <InputLabel focused={true} htmlFor="title-field">Title</InputLabel>
+        <TextField
+            id="title-field"
+            autoFocus
+            margin="dense"
+            label="title"
+            fullWidth
             value={myTitle}
             onChange={(e) => setMyTitle(e.target.value)}
-            ></input>
-            <textarea
+          />
+          <InputLabel focused={true} htmlFor="body-field">Body</InputLabel>
+          <TextField
+            id="body-filed"
+            variant="outlined"
+            multiline={true}
+             aria-label="maximum height"
+            autoFocus
+            margin="dense"
+            fullWidth
             value={myBody}
             onChange={(e) => setMyBody(e.target.value)}
-            ></textarea>
-        </div>
-        <button onClick={handleSave}>Save</button>
-        <button onClick={handleCancel}>cancel</button>
-        <button onClick={handleStart}>Start</button>
-        <button onClick={handleStop}>Stop</button>
-        <button onClick={handleDelete}>Delete</button>
-        </div>
+            rowsMin="25"
+            rowsMax="50"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleCancel}>cancel</Button>
+          <Button onClick={handleStart}>Start</Button>
+          <Button onClick={handleStop}>Stop</Button>
+          <Button onClick={handleDelete}>Delete</Button>
+        </DialogActions>
+      </Dialog>
     );
 };
 

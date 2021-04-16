@@ -102,3 +102,19 @@
 .page.stf__item.--soft.--right.--simple{
   left: 300px;
 } 
+
+
+div.wowbook div#testing123{
+  margin-top: auto;
+  /* margin-bottom: auto; */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5em;
+  padding-top: 2em;
+  width: 90%;
+  height:85vh;
+  /* border:1px solid black;  */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}

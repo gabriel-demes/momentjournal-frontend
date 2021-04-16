@@ -13,7 +13,13 @@ const PageCover = React.forwardRef((props, ref) => {
             method: "DELETE"
         })
             .then(r => r.json())
-            .then(()=> history.push('/me'))
+            .then((journal)=> {
+                props.setMyJournals(journals => {
+                    const index = journals.indexOf([journal.id, journal.title])
+                    journals.splice(index, 1)
+                    return [...journals] 
+                })
+                history.push('/me')})
     }
     return (
         <div className="page page-cover" ref={ref} data-density="hard">
@@ -75,7 +81,9 @@ const OpenJournal = (props) => {
         refBook.current.getPageFlip().setting.disableFlipByClick = true;
     };
     const prevButtonClick = (e) => {
+        refBook.current.getPageFlip().setting.disableFlipByClick = false;
         refBook.current.getPageFlip().flipPrev();
+        refBook.current.getPageFlip().setting.disableFlipByClick = true;
     };
 
 
@@ -100,7 +108,7 @@ const OpenJournal = (props) => {
         .catch(() => {
             history.push("/me")
         });
-    }, [jid, params.curpage]);
+    }, [jid, params.curpage, history]);
 
 
 
@@ -161,15 +169,18 @@ const OpenJournal = (props) => {
     )
     }
 
+    
+
 
 
     return (
-        <div>
+        <div className="wowbook">
+        <div id="testing123" >
             <HTMLFlipBook
                 ref={refBook}
                 starZIndex={0}
-                width={500}
-                height={600}
+                width={550}
+                height={660}
                 drawShadow={true}
                 maxShadowOpacity={1}
                 showCover={false}
@@ -180,12 +191,14 @@ const OpenJournal = (props) => {
                 onChangeState={(e) => e.onChangeState}
                 on
             >
-                <PageCover id={jid}></PageCover>
+                <PageCover id={jid} setMyJournals={props.setMyJournals}></PageCover>
                 <TOC nextButtonClick={nextButtonClick}  entries={entries} jid={jid}></TOC>
                 {pages()}
                 {/* <PageCover></PageCover> */}
             </HTMLFlipBook>
+            </div>
         </div>
+
     );
 };
 

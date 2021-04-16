@@ -1,12 +1,13 @@
 import React, {useState} from "react"
 import GoalList from "./GoalList"
 import "../css/Goals.css"
+import NewGoalList from "./NewGoalList"
 
-const GoalsContainer = ({lists, user}) => {
-    const [myLists, setMyLists] = useState(lists)
+const GoalsContainer = ({lists, user, newGModOpen, setNewGModOpen, setMyLists}) => {
+    
     const [title, setTitle] = useState("Title")
 
-    const displayLists = myLists?.map(list => <GoalList key={list.id} list={list} setMyLists={setMyLists}/>)
+    const displayLists = lists?.map(list => <GoalList key={list.id} list={list} setMyLists={setMyLists}/>)
 
     const makeList = (e) => {
         e.preventDefault()
@@ -23,12 +24,8 @@ const GoalsContainer = ({lists, user}) => {
     }
     return (
         <div className="goalscontainer">
-            <form onSubmit={makeList}>
-                <h4>New List</h4>
-                <input onChange={e=> setTitle(e.target.value)} value={title} ></input>
-                <input type="submit"></input>
-            </form>
             {displayLists}
+            <NewGoalList setMyLists={setMyLists} setTitle={setTitle} makeList={makeList} newGModOpen={newGModOpen} setNewGModOpen={setNewGModOpen}/>
         </div>
     )
 }
