@@ -1,0 +1,23 @@
+.navbar{
+    display: flex;
+    background-color: rgb(0, 76, 104);
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.navbar section{
+    display: flex;
+    align-items: center;
+    width: max-content;
+    justify-content: space-evenly;
+}
+
+#welcome{
+    padding-top: .25rem;
+    z-index: 1;
+    position: absolute;
+    text-align: center;
+    align-self: center;
+    left: auto;
+}

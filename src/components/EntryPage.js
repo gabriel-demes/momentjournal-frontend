@@ -8,19 +8,19 @@ import 'rc-slider/assets/index.css';
 const marks = { [-1]:<IoSadOutline size={15}/>, 1:<IoHappyOutline size={15}/> }
 
 const EntryPage = React.forwardRef((props, ref) => {
-    const [edit, setEdit] = useState(false);
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
     const [id, setId] = useState("");
     const [sentiment, setSentiment] = useState(null)
-    const handlePopUp = (e) => {
-        setEdit((e) => !e);
-    };
+    const [modOpen, setModOpen] = useState(false)
+
     useEffect(() => {
         setTitle(props.entry.title);
         setBody(props.entry.body);
         setId(props.entry.id);
     }, [props.entry.title, props.entry.id, props.entry.body]);
+
+    const formatedBody = body.split("\n").map((paragraph, index) => <p style={{textIndent:"2em"}} key={title + index}>{paragraph}</p>)
     
     const pageDirection = () => {
         if(props.number % 2 === 0 && props.number !== props.totalPage -1){
@@ -30,9 +30,12 @@ const EntryPage = React.forwardRef((props, ref) => {
                 </button>)
         }else if(props.number % 2 === 0 && props.number === props.totalPage -1){
             return(
+                <>
+                { !props.isGuest &&
                 <button onClick={()=>props.newEntry()}>
                     <IoAddCircleOutline size={30}/>
-                </button>
+                </button> }
+                </>
             )
         }else if(props.number % 2 !== 0 && props.number !== props.totalPage -1){
             return(
@@ -42,9 +45,10 @@ const EntryPage = React.forwardRef((props, ref) => {
             )
         }else{return(
             <>
+            {!props.isGuest &&
             <button onClick={()=>props.newEntry()}>
                 <IoAddCircleOutline size={30}/>
-            </button>
+            </button>}
             <button onClick={props.prevButtonClick}>
             <IoChevronBackCircleOutline size={30} />
             </button>
@@ -66,8 +70,8 @@ const EntryPage = React.forwardRef((props, ref) => {
         <div className="page" ref={ref}>
             <div className="page-content">
             <h2 className="page-header">{title} </h2>
-            <div onClick={handlePopUp} className="page-text">
-                {body}
+            <div onClick={()=> !props.isGuest && setModOpen(true)} className="page-text">
+                {formatedBody}
             </div>
             <div className="page-footer">
                 <button style={{display:"block"}} onClick={getSentiment}>Show Sentiment</button>
@@ -87,17 +91,7 @@ const EntryPage = React.forwardRef((props, ref) => {
             </div>
             </div>
         </div>
-        {edit && (
-            <EditEntry
-            handlePopUp={handlePopUp}
-            id={id}
-            title={title}
-            body={body}
-            setTitle={setTitle}
-            setBody={setBody}
-            deleteEntry={props.deleteEntry}
-            />
-        )}
+        {modOpen &&<EditEntry deleteEntry={props.deleteEntry} title={title} setTitle={setTitle} setBody={setBody} body={body} modOpen={modOpen} setModOpen={setModOpen} id={id}/>}
         </div>
     );
 });

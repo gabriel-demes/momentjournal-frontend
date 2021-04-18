@@ -1,17 +1,23 @@
 import "../css/App.css";
 import Auth from "./Auth";
-import MyCalendar from "./Calendar";
-import JournalContainer from "./JournalContainer";
 import NavBar from "./NavBar";
 import OpenJournal from "./OpenJournal";
 import {Switch, Route} from "react-router-dom"
 import {useState, useEffect} from "react"
 import GoalsContainer from "./GoalsContainer";
+import Dashboard from "./Dashboard";
+
+
 
 
 function App() {
   const [user, setUser] = useState(null)
-
+  const [newJModOpen, setNewJModOpen] = useState(false)
+  const [newGModOpen, setNewGModOpen] = useState(false)
+  const [newGuestModOpen, setNewGuestModOpen] = useState(false)
+  const [myJournals, setMyJournals] = useState([])
+  const [myLists, setMyLists] = useState([])
+  const [guestList, setGuestList] = useState([])
   useEffect(()=> {
     const token = localStorage.getItem("token")
     if (token){
@@ -23,32 +29,34 @@ function App() {
         .then((r) => r.json())
         .then((user) => { 
           setUser(user);
+          setMyJournals(user["my_journals"])
+          setMyLists(user.goallists)
+          setGuestList(user["guest_journals"])
         });
     }
   }, []);
 
   return (
-    <>
-      <NavBar/>
+    <div className="App">
+      <NavBar setNewGuestModOpen={setNewGuestModOpen} setNewJModOpen={setNewJModOpen}  setNewGModOpen={setNewGModOpen}user={user}/>
       <Switch>
         {user ? 
           <>
             <Route path="/me"> 
-              <JournalContainer user={user}/>
-              <MyCalendar user={user}/>
+              <Dashboard guestList={guestList} myJournals={myJournals} setMyJournals={setMyJournals} user={user} setNewJModOpen={setNewJModOpen} newJModOpen={newJModOpen}   />
             </Route>
             <Route path="/journals/:id/:curpage?">
-              <OpenJournal/>
+              <OpenJournal user={user} setMyJournals={setMyJournals} setNewGuestModOpen={setNewGuestModOpen} newGuestModOpen={newGuestModOpen}/>
             </Route>
             <Route path="/mygoals">
-              <GoalsContainer  user={user} lists={user.goallists} />
+              <GoalsContainer  setNewGModOpen={setNewGModOpen} newGModOpen={newGModOpen}user={user} lists={myLists} setMyLists={setMyLists}/>
             </Route>
           </> 
           :
           <Auth setUser={setUser}/>
         }
       </Switch>
-    </>
+    </div>
   );
 }
 

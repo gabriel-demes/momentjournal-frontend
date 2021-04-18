@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom'
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css";
+
 const localizer = momentLocalizer(moment)
 const MyCalendar = ({user}) => {
     const [entries, setEntries] = useState([{date:new Date(), title:"today"}])
@@ -29,8 +30,9 @@ const MyCalendar = ({user}) => {
     }
 
     return(
-        <div>
+        <div className="cal">
     <Calendar
+        style={{backgroundColor:"#C5CBE3"}}
       localizer={localizer}
     events={makeEvents()}
       startAccessor="start"
@@ -38,7 +40,7 @@ const MyCalendar = ({user}) => {
       style={{ height: 500 }}
       onSelectEvent={e=> history.push(`/journals/${e.journal}/${e.id}`)}
     />
-  </div>
+        </div>
     )
 }
 
