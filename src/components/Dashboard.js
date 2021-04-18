@@ -8,9 +8,7 @@ const Dashboard = ({user, guestList, setNewJModOpen, newJModOpen, myJournals, se
 
     return (
         <div className="dashboard">
-            <h1 style={{textAlign:"center"}}>My Journals</h1>
             <JournalContainer guestList={guestList} user={user} myJournals={myJournals} setMyJournals={setMyJournals} setModOpen={setNewJModOpen} modOpen={newJModOpen}/>
-            
             <MyCalendar user={user}/>
         </div>
     )
