@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Checkbox } from "@material-ui/core"
 import React, {useState} from "react"
-import { IoHeartSharp, IoTrashBinSharp } from "react-icons/io5"
+import { IoHeartSharp, IoTrashOutline } from "react-icons/io5"
 import "../css/Goals.css"
 
 const Goal = ({goal, setGoals}) => {
@@ -36,7 +36,7 @@ const Goal = ({goal, setGoals}) => {
              </Checkbox>
             <Button 
                 onClick={deleteGoal}
-                startIcon={<IoTrashBinSharp color="white"></IoTrashBinSharp>}
+                startIcon={<IoTrashOutline color="white"></IoTrashOutline>}
                 style={{paddingLeft:"2em"}}
             ></Button>
             </ButtonGroup>

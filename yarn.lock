@@ -2399,6 +2399,11 @@
   "resolved" "https://registry.npmjs.org/alphanum-sort/-/alphanum-sort-1.0.2.tgz"
   "version" "1.0.2"
 
+"animal-avatars.js@^0.0.2":
+  "integrity" "sha512-MyMjrK0pT30BGthYZbH3zE+ljEBYRbwIi9Zp2mvxkqn7RXuoohR/5nPXDVNcqzSyA9xHGYarh8CZ3LkCd4elxg=="
+  "resolved" "https://registry.npmjs.org/animal-avatars.js/-/animal-avatars.js-0.0.2.tgz"
+  "version" "0.0.2"
+
 "ansi-colors@^3.0.0":
   "integrity" "sha512-hHUXGagefjN2iRrID63xckIvotOXOojhQKWIPUZ4mNUZ9nLZW+7FMNoE1lOkEhNWYsx/7ysGIuJYCiMAA9FnrA=="
   "resolved" "https://registry.npmjs.org/ansi-colors/-/ansi-colors-3.2.4.tgz"

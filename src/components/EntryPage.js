@@ -4,6 +4,7 @@ import {IoSadOutline,IoHappyOutline, IoAddCircleOutline, IoChevronForwardCircleO
 import EditEntry from "./EditEntry";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import { Button } from "@material-ui/core";
 
 const marks = { [-1]:<IoSadOutline size={15}/>, 1:<IoHappyOutline size={15}/> }
 
@@ -13,45 +14,48 @@ const EntryPage = React.forwardRef((props, ref) => {
     const [id, setId] = useState("");
     const [sentiment, setSentiment] = useState(null)
     const [modOpen, setModOpen] = useState(false)
+    const [date, setDate] = useState("")
 
     useEffect(() => {
+        console.log(new Date(props.entry.created_at))
         setTitle(props.entry.title);
         setBody(props.entry.body);
-        setId(props.entry.id);
-    }, [props.entry.title, props.entry.id, props.entry.body]);
+        setId(props.entry.id)
+        setDate(new Date(props.entry.created_at).toDateString());
+    }, [props.entry.title, props.entry.id, props.entry.body, props.entry.date]);
 
     const formatedBody = body.split("\n").map((paragraph, index) => <p style={{textIndent:"2em"}} key={title + index}>{paragraph}</p>)
     
     const pageDirection = () => {
         if(props.number % 2 === 0 && props.number !== props.totalPage -1){
             return(
-                <button onClick={props.nextButtonClick}>
+                <Button onClick={props.nextButtonClick}>
                     <IoChevronForwardCircleOutline size={30} />
-                </button>)
+                </Button>)
         }else if(props.number % 2 === 0 && props.number === props.totalPage -1){
             return(
                 <>
                 { !props.isGuest &&
-                <button onClick={()=>props.newEntry()}>
+                <Button onClick={()=>props.newEntry()}>
                     <IoAddCircleOutline size={30}/>
-                </button> }
+                </Button> }
                 </>
             )
         }else if(props.number % 2 !== 0 && props.number !== props.totalPage -1){
             return(
-                <button onClick={props.prevButtonClick}>
+                <Button onClick={props.prevButtonClick}>
                     <IoChevronBackCircleOutline size={30} />
-                </button>
+                </Button>
             )
         }else{return(
             <>
             {!props.isGuest &&
-            <button onClick={()=>props.newEntry()}>
+            <Button onClick={()=>props.newEntry()}>
                 <IoAddCircleOutline size={30}/>
-            </button>}
-            <button onClick={props.prevButtonClick}>
+            </Button>}
+            <Button onClick={props.prevButtonClick}>
             <IoChevronBackCircleOutline size={30} />
-            </button>
+            </Button>
             </>
         )}
     }
@@ -69,12 +73,15 @@ const EntryPage = React.forwardRef((props, ref) => {
         <div>
         <div className="page" ref={ref}>
             <div className="page-content">
-            <h2 className="page-header">{title} </h2>
+            <h2 className="page-header">
+                {title}<br/>
+                {date}
+            </h2>
             <div onClick={()=> !props.isGuest && setModOpen(true)} className="page-text">
                 {formatedBody}
             </div>
             <div className="page-footer">
-                <button style={{display:"block"}} onClick={getSentiment}>Show Sentiment</button>
+                <Button variant="outlined" size="small" style={{display:"block"}} onClick={getSentiment}>Show Sentiment</Button>
                 {sentiment && 
                     <Slider 
                         disabled 
