@@ -21,18 +21,20 @@ const JournalContainer = ({modOpen, setModOpen, user, myJournals, setMyJournals,
     }
     
     const displayJournals = () => {return(myJournals.map(journal => <Journal key={`${journal[0]}${journal[1]}`} id={journal[0]} title={journal[1]}/>))}
-    const displayGuests = () => {return(guestList.map(journal => <Journal key={`${journal[0]}${journal[1]}`} id={journal[0]} title={journal[1]}/>))}
+    const displayGuests = () => {return(guestList.map(journal => <Journal key={`${journal[0]}${journal[1]}`} id={journal[0]} title={journal[1]} author={journal[2]}/>))}
 
     const myJournalsStyle = makeStyles(theme => ({
         root:{
             backgroundColor: isMyJournals ? "rgb(0 76 104)" : null,
-            color: isMyJournals ? "white" : null
+            color: isMyJournals ? "white" : null,
+            fontFamily:"Kalam"
         }
     }))
     const guestJournalsStyle = makeStyles(theme => ({
         root:{
             backgroundColor: !isMyJournals ? "rgb(0 76 104)" : null,
-            color: !isMyJournals ? "white" : null
+            color: !isMyJournals ? "white" : null,
+            fontFamily:"Kalam"
         }
     }))
 

@@ -2,6 +2,8 @@ import React, { useState, useEffect} from "react";
 import "../css/EditEntry.css";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel } from "@material-ui/core";
+import {IoMicOutline, IoStopOutline, IoTrashOutline, IoSaveOutline, IoReturnDownBack} from "react-icons/io5"
+
 
 
 const EditEntry = ({title, body, id, setTitle, setBody, deleteEntry, modOpen, setModOpen }) => {
@@ -107,11 +109,11 @@ const EditEntry = ({title, body, id, setTitle, setBody, deleteEntry, modOpen, se
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleSave}>Save</Button>
-          <Button onClick={handleCancel}>cancel</Button>
-          <Button onClick={()=> handleStart("en-US")}>Start</Button>
-          <Button onClick={handleStop}>Stop</Button>
-          <Button onClick={handleDelete}>Delete</Button>
+          <Button startIcon={<IoSaveOutline/>} onClick={handleSave}>Save</Button>
+          <Button startIcon={<IoReturnDownBack/>} onClick={handleCancel}>cancel</Button>
+          <Button startIcon={<IoMicOutline/> } onClick={()=> handleStart("en-US")}>Start</Button>
+          <Button startIcon={<IoStopOutline/>} onClick={handleStop}>Stop</Button>
+          <Button startIcon={<IoTrashOutline/>} onClick={handleDelete}>Delete</Button>
         </DialogActions>
       </Dialog>
     );

@@ -3,7 +3,7 @@ import {FaBook} from 'react-icons/fa'
 import { useHistory } from "react-router-dom"
 import {randomColor} from "randomcolor"
 
-const Journal = ({id, title}) => {
+const Journal = ({id, title, author}) => {
     const history = useHistory()
     const redirect = () => {
         history.push(`/journals/${id}/0`)
@@ -27,7 +27,7 @@ const Journal = ({id, title}) => {
                 // }
             />
             </div>
-            <h4 style={{textAlign: "center"}}>{title}</h4>
+            <h4 style={{textAlign: "center"}}>{title} <br></br> {author}</h4>
         </div>
     )
 }

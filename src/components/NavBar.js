@@ -51,7 +51,8 @@ const NavBar = ({ user, setNewJModOpen, setNewGModOpen, setNewGuestModOpen, setU
         root: {
             backgroundColor: isDash ? "rgb(0 76 104)" : null,
             color: isDash ? "white" : null,
-            border: isDash ? "1px solid white" : "1px solid rgb(0 76 104)"
+            border: isDash ? "1px solid white" : "1px solid rgb(0 76 104)",
+            fontFamily:"Kalam"
         }
     })
 
@@ -60,11 +61,19 @@ const NavBar = ({ user, setNewJModOpen, setNewGModOpen, setNewGuestModOpen, setU
         root: {
             backgroundColor: !isDash ? "rgb(0 76 104)" : null,
             color: !isDash ? "white" : null,
-            border: !isDash ?"1px solid white" : "1px solid rgb(0 76 104)"
+            border: !isDash ?"1px solid white" : "1px solid rgb(0 76 104)",
+            fontFamily:"Kalam"
         }
     })
 
     const goalsStyle = useStyles()
+
+    const welcomeStyles = makeStyles({
+        root: {
+            fontFamily:"Kalam"
+        }
+    })
+    const welcomeStyle = welcomeStyles()
 
     return (
         <AppBar  className="nav-bar"position="sticky">
@@ -104,7 +113,7 @@ const NavBar = ({ user, setNewJModOpen, setNewGModOpen, setNewGuestModOpen, setU
             </>}
             
         </Toolbar> 
-        <Typography variant="h3" id="welcome">
+        <Typography className={welcomeStyle.root} variant="h3" id="welcome" >
                 Welcome {user ? user.name : "to MomentJournal"}
         </Typography>
         </AppBar>
