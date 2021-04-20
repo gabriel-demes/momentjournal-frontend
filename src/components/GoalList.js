@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react"
 import Goal from "./Goal"
 import "../css/Goals.css"
 import { Button, TextField } from "@material-ui/core"
-import { IoAddCircle, IoTrashBinSharp } from "react-icons/io5"
+import { IoAddCircleOutline, IoTrashOutline } from "react-icons/io5"
 
 const GoalList = ({list, setMyLists}) => {
     
@@ -56,8 +56,8 @@ const GoalList = ({list, setMyLists}) => {
         <div className="goallist">
             <h3>{list.title}</h3>
             <section style={{paddingLeft:"1em"}}>
-            <Button onClick={newGoal} startIcon={<IoAddCircle size={25} color="rgb(0, 76, 104)"/>}></Button>
-            <Button style={{textAlign:"center"}}  startIcon={<IoTrashBinSharp size={25} color="rgb(0, 76, 104)"/>} onClick={deleteList}></Button>
+            <Button onClick={newGoal} startIcon={<IoAddCircleOutline size={25} color="rgb(0, 76, 104)"/>}></Button>
+            <Button style={{textAlign:"center"}}  startIcon={<IoTrashOutline size={25} color="rgb(0, 76, 104)"/>} onClick={deleteList}></Button>
             </section>
             {add ? 
             <form onSubmit={addGoal}>

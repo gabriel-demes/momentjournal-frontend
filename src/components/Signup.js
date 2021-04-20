@@ -1,3 +1,4 @@
+import { Button, TextField } from "@material-ui/core";
 import {useState, } from "react"
 import { useHistory } from "react-router";
 
@@ -39,47 +40,47 @@ const SignUp = ({setUser}) => {
             const {user, token} = data
             localStorage.setItem("token", token)
             setUser(user)
-            history.push("/me")
+            history.push("/dashboard")
         })
         .catch(data => {
             setErrors(data.errors)
         })
     }
-    const { name, username, password } = formData;
+    
     return(
         <form autoComplete="off" onSubmit={handleSubmit} id="signup-form">
             {errors.map(err => <p key={err}>{err}</p>)}
             <h1>Sign Up</h1>
             <div className="signup-control">
-                <label>Name</label>
-                <input 
+
+                <TextField
+                    label="Name"
                     type="text"
                     name="name"
-                    value={name}
+                    value={formData.name}
                     onChange={handleChange} 
                 />
             </div>
             <div className="signup-control">
-                <label>Username</label>
-                <input 
+                <TextField
+                    label="Username"
                     type="text"
                     name="username"
-                    value={username}
+                    value={formData.username}
                     onChange={handleChange} 
                 />
             </div>
             <div className="signup-control">
-                <label>Password</label>
-                <input
+                <TextField
+                    label="password"
                     type="password"
                     name="password"
-                    autoComplete="current-password"
-                    value={password}
+                    value={formData.password}
                     onChange={handleChange}
                 />
             </div>
             
-            <button type="submit">Sign Up</button> 
+            <Button type="submit">Sign Up</Button> 
         </form>
     )
 

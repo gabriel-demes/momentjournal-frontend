@@ -1,4 +1,4 @@
-import { Button, ButtonGroup } from "@material-ui/core"
+import { Button, ButtonGroup, makeStyles } from "@material-ui/core"
 import React,{useState} from "react"
 import Journal from "./Journal"
 import NewJournalForm from "./NewJournalForm"
@@ -23,11 +23,27 @@ const JournalContainer = ({modOpen, setModOpen, user, myJournals, setMyJournals,
     const displayJournals = () => {return(myJournals.map(journal => <Journal key={`${journal[0]}${journal[1]}`} id={journal[0]} title={journal[1]}/>))}
     const displayGuests = () => {return(guestList.map(journal => <Journal key={`${journal[0]}${journal[1]}`} id={journal[0]} title={journal[1]}/>))}
 
+    const myJournalsStyle = makeStyles(theme => ({
+        root:{
+            backgroundColor: isMyJournals ? "rgb(0 76 104)" : null,
+            color: isMyJournals ? "white" : null
+        }
+    }))
+    const guestJournalsStyle = makeStyles(theme => ({
+        root:{
+            backgroundColor: !isMyJournals ? "rgb(0 76 104)" : null,
+            color: !isMyJournals ? "white" : null
+        }
+    }))
+
+    const mjClasses = myJournalsStyle()
+    const guestClasses = guestJournalsStyle()
+    
     return(
         <div>
             <ButtonGroup variant="contained" size="large" style={{marginTop:"2em"}}>
-                <Button clicked className="on-tab" color="rgb(0, 76, 104)" lassName={isMyJournals ? "on-tab" : null} onClick={()=> setIsMyJournals(true)}>My Journals</Button>
-                <Button onClick={()=> setIsMyJournals(false)}>Guest Journals</Button>
+                <Button className={mjClasses.root} color="rgb(0, 76, 104)"  onClick={()=> setIsMyJournals(true)}>My Journals</Button>
+                <Button className={guestClasses.root} onClick={()=> setIsMyJournals(false)}>Guest Journals</Button>
             </ButtonGroup>
             <div className="journalContainer">
                 {isMyJournals ? displayJournals():displayGuests()}        

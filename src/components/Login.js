@@ -1,3 +1,4 @@
+import { Button, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 
@@ -26,7 +27,7 @@ const Login = ({setUser}) => {
                 const {user, token} = data;
                 localStorage.setItem("token", token);
                 setUser(user);
-                history.push("/me");
+                history.push("/dashboard");
             })
             .catch(data => {
                 setErrors(data.errors)
@@ -38,8 +39,8 @@ const Login = ({setUser}) => {
             {errors.map(err => <p key={err}>{err}</p>)}
             <h1>Login</h1>
             <div className="login-control">
-                <label>Username</label>
-                <input
+                <TextField
+                label="UserName"
                     type="text"
                     name="username"
                     value={formData.username}
@@ -47,15 +48,15 @@ const Login = ({setUser}) => {
                 />
             </div>
             <div className="login-control">
-                <label>Password</label>
-                <input
+                <TextField
+                    label="Password"
                     type="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
                 />
             </div>
-            <input type="submit" value="Login" />
+            <Button variant="filled" type="submit" value="Login" >LogIn</Button>
         </form>
     )
 }

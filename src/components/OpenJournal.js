@@ -5,9 +5,10 @@ import { useParams, useHistory, Link } from "react-router-dom";
 import EntryPage from "./EntryPage";
 import {
   IoChevronForwardCircleOutline,
-  IoTrashBinSharp,
+  IoTrashOutline,
 } from "react-icons/io5";
 import NewGuest from "./NewGuest";
+import { Button } from "@material-ui/core";
 
 const PageCover = React.forwardRef((props, ref) => {
   const history = useHistory();
@@ -23,20 +24,22 @@ const PageCover = React.forwardRef((props, ref) => {
           journals.splice(index, 1);
           return [...journals];
         });
-        history.push("/me");
+        history.push("/dashboard");
       });
   };
   return (
     <div className="page page-cover" ref={ref} data-density="hard">
       <div className="page-content">
-          <div className="page-header"></div>
+          <div className="page-header">
+            <h2>{props.title}</h2>
+          </div>
         <div className="page-text"></div>
 
         <div className="page-footer">
           {!props.isGuest ? (
-            <button onClick={deleteJournal}>
-              <IoTrashBinSharp size={30} />
-            </button>
+            <Button onClick={deleteJournal}>
+              <IoTrashOutline size={30} />
+            </Button>
           ) : null}
         </div>
       </div>
@@ -65,9 +68,9 @@ const TOC = React.forwardRef((props, ref) => {
             <ol>{displayContents()}</ol>
           </div>
           <div className="page-footer">
-            <button onClick={props.nextButtonClick}>
+            <Button onClick={props.nextButtonClick}>
               <IoChevronForwardCircleOutline size={30} />
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -79,6 +82,7 @@ const OpenJournal = (props) => {
   const history = useHistory();
   const refBook = useRef(null);
   const [totalPage, setTotalPage] = useState(0);
+  const [title, setTitle] = useState("")
   const params = useParams();
   let jid = params["id"];
   const [entries, setEntries] = useState([{ title: "", body: "" }]);
@@ -114,6 +118,7 @@ const OpenJournal = (props) => {
       })
       .then((journal) => {
         setEntries(journal.entries);
+        setTitle(journal.title)
         setTotalPage(journal.entries.length + 1);
         if (journal.myguests.includes(props.user.id)) {
           setIsGuest(true);
@@ -121,7 +126,7 @@ const OpenJournal = (props) => {
         refBook.current.getPageFlip().turnToPage(parseInt(params.curpage) + 1);
       })
       .catch(() => {
-        history.push("/me");
+        history.push("/dashboard");
       });
   }, [jid, params.curpage, history, props.user.id]);
 
@@ -232,6 +237,7 @@ const OpenJournal = (props) => {
             isGuest={isGuest}
             id={jid}
             setMyJournals={props.setMyJournals}
+            title = {title}
           ></PageCover>
           <TOC
             nextButtonClick={nextButtonClick}
