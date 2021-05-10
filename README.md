@@ -32,7 +32,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### Frontend
 
-Fork the frontend Repo: https://github.com/gabriel-demes/mockyoutube-frontend
+Fork the frontend Repo: https://github.com/gabriel-demes/momentjournal-frontend
 
 run:
 
